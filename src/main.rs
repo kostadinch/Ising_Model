@@ -1,12 +1,12 @@
 use rand::prelude::*;
 
 fn main() {
-    //Defining initial values
-    let size_of_the_square_matrix = 1000; 
+    // Defining initial values.
+    let size_of_the_square_matrix = 100;
     let coupling_between_neighboring_spins = 0.44;
     let applied_field = 0.02;
 
-    //Defining initial configuration
+    // Defining initial configuration.
     let mut initial_configuration: Vec<Vec<i32>> = (0..size_of_the_square_matrix)
         .map(|_| {
             (0..size_of_the_square_matrix)
@@ -15,9 +15,9 @@ fn main() {
         })
         .collect();
 
-    //Going through sweeps to get a more energetically favorable configuration
+    // Going through sweeps to get a more energetically favorable configuration.
     let number_of_sweeps = 7000;
-    let mut final_configuration= initial_configuration.clone();
+    let mut final_configuration = initial_configuration.clone();
     for _ in 0..number_of_sweeps {
         initial_configuration = sweep(
             &mut initial_configuration,
@@ -27,11 +27,14 @@ fn main() {
         );
     }
 
-    println!("Final configuration (sample element): {}", initial_configuration[0][0]);
+    println!(
+        "Final configuration (sample element): {}",
+        initial_configuration[0][0]
+    );
 }
 
-//Sweep function that implements the Monte Carlo method 
-//using the Metropolis-Hastings algorithm
+/// # Sweep function
+/// Sweep function that implements the Monte Carlo method using the Metropolis-Hastings algorithm.
 fn sweep(
     initial_configuration: &mut Vec<Vec<i32>>,
     size: usize,
@@ -41,21 +44,14 @@ fn sweep(
     let mut rng = thread_rng();
     let mut updated_configuration = initial_configuration.clone();
 
-    //The loop goes through every element of the initial configuration
-    //and checks if changing the element's spin will result in a higher energy 
-    //configuration
+    // The loop goes through every element of the initial configuration and checks if changing the
+    // element's spin will result in a higher energy configuration.
     for i in 0..size {
         for j in 0..size {
-
-            
-            let spin_up = 
-            initial_configuration[i][if j == size - 1 { 0 } else { j + 1 }];
-            let spin_down = 
-            initial_configuration[i][if j == 0 { size - 1 } else { j - 1 }];
-            let spin_left = 
-            initial_configuration[if i == 0 { size - 1 } else { i - 1 }][j];
-            let spin_right = 
-            initial_configuration[if i == size - 1 { 0 } else { i + 1 }][j];
+            let spin_up = initial_configuration[i][if j == size - 1 { 0 } else { j + 1 }];
+            let spin_down = initial_configuration[i][if j == 0 { size - 1 } else { j - 1 }];
+            let spin_left = initial_configuration[if i == 0 { size - 1 } else { i - 1 }][j];
+            let spin_right = initial_configuration[if i == size - 1 { 0 } else { i + 1 }][j];
 
             let initial_spin = initial_configuration[i][j];
             let final_spin = -initial_spin;
