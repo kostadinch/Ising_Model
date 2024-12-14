@@ -2,6 +2,7 @@ use crate::spin::Spin;
 
 /// # Grid
 /// This is a struct that represents a grid of spins.
+#[derive(Debug)]
 pub struct Grid {
     spins: Vec<Spin>,
     width: usize,
