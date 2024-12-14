@@ -1,5 +1,5 @@
 /// Represents the spin at a site on a lattice.
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
 pub enum Spin {
     Up,
     Down,
